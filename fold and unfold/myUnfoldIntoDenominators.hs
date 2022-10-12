@@ -1,8 +1,8 @@
-myUnfoldIntoDenominatorsHelper :: Int -> Int -> [Int]
-myUnfoldIntoDenominatorsHelper 1 _ = []
-myUnfoldIntoDenominatorsHelper x d
-  | x `mod` d == 0 = d : myUnfoldIntoDenominatorsHelper (x `div` d) d
-  | otherwise = myUnfoldIntoDenominatorsHelper x (d + 1)
+import Data.List (unfoldr)
 
-myUnfoldIntoDenominators :: Int -> [Int]
-myUnfoldIntoDenominators x = myUnfoldIntoDenominatorsHelper x 2
+myUnfoldIntoDenominatorsHelper (1, _) = Nothing
+myUnfoldIntoDenominatorsHelper (n, d)
+  | n `mod` d == 0 = Just (d, (n `div` d, d))
+  | otherwise = myUnfoldIntoDenominatorsHelper (n, d + 1)
+
+myUnfoldIntoDenominators n = unfoldr myUnfoldIntoDenominatorsHelper (n, 2)

@@ -1,6 +1,7 @@
-myFoldFromDigitsHelper :: [Int] -> Int -> Int -> Int
-myFoldFromDigitsHelper [] _ s = s
-myFoldFromDigitsHelper (x : xs) y s = myFoldFromDigitsHelper xs (y * 2) (s + y * x)
+import Data.List (unfoldr)
 
-myFoldFromDigits :: [Int] -> Int
-myFoldFromDigits x = myFoldFromDigitsHelper x 1 0
+myFoldFromDigitsHelper (b, p) a
+  | a == 1 = (b + p, p * 2)
+  | otherwise = (b, p * 2)
+
+myFoldFromDigits d = fst (foldl myFoldFromDigitsHelper (0, 1) d)

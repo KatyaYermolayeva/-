@@ -1,4 +1,6 @@
-myUnfoldIntoSmaller :: Int -> [Int]
-myUnfoldIntoSmaller x
-  | x <= 0 = []
-  | otherwise = (x - 1) : (myUnfoldIntoSmaller (x - 1))
+import Data.List (unfoldr)
+
+myUnfoldIntoSmallerHelper 0 = Nothing
+myUnfoldIntoSmallerHelper n = Just (n, n - 1)
+
+myUnfoldIntoSmaller n = unfoldr myUnfoldIntoSmallerHelper n

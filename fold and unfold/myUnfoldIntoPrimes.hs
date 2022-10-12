@@ -1,11 +1,7 @@
-import Data.List
+import Data.List (unfoldr)
 
-sieve :: Int -> [Int] -> [Int]
-sieve n (x : xs) = (x : xs) \\ [x, 2 * x .. n]
+isNotMultipleOf x y = y `mod` x /= 0
 
-myUnfoldIntoPrimesHelper :: Int -> [Int] -> [Int]
-myUnfoldIntoPrimesHelper _ [] = []
-myUnfoldIntoPrimesHelper n (x : xs) = x : (myUnfoldIntoPrimesHelper n (sieve n (x : xs)))
+primesHelper (x : xs) = Just (x, filter (isNotMultipleOf x) xs)
 
-myUnfoldIntoPrimes :: Int -> [Int]
-myUnfoldIntoPrimes x = myUnfoldIntoPrimesHelper x [2 .. x]
+primes = unfoldr primesHelper (2 : [3, 5 ..])
