@@ -1,12 +1,13 @@
+addToEach x l = map (flip (++) [x]) l
 
-delannoyStep :: [[Int]] -> [[Int]] -> [[Int]]
-delannoyStep cs ds = [1]: (zipWith3 (\x y z -> map (0 :) x ++ map (2 :) y ++ map (1 :) z) ds (tail ds) cs) ++ [[1]]
+delannoyPathsStep :: [[[Int]]] -> [[[Int]]] -> [[[Int]]]
+delannoyPathsStep cs ds = (addToEach 2 (head ds)) : (zipWith3 (\x y z -> (addToEach 0 x) ++ (addToEach 2 y) ++ (addToEach 1 z)) ds (tail ds) cs) ++ [addToEach 0 (last ds)]
 
-delannoyHelper :: [[Int]] -> [[Int]] -> [[[Int]]]
-delannoyHelper cs ds = cs: (delannoyHelper ds (delannoyStep cs ds))
+delannoyPathsHelper :: [[[Int]]] -> [[[Int]]] -> [[[[Int]]]]
+delannoyPathsHelper cs ds = cs : (delannoyPathsHelper ds (delannoyPathsStep cs ds))
 
-delannoyLayers :: [[[Int]]]
-delannoyLayers = delannoyHelper [[1]] [[1], [1]]
+delannoyPathsLayers :: [[[[Int]]]]
+delannoyPathsLayers = delannoyPathsHelper [[[]]] [[[2]], [[0]]]
 
-delannoyPaths :: Int -> Int -> [Int]
-delannoyPaths a b = (last $ take (a + b + 1) $ delannoyLayers) !! b
+delannoyPaths :: Int -> Int -> [[Int]]
+delannoyPaths a b = (last $ take (a + b + 1) $ delannoyPathsLayers) !! b
