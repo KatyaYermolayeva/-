@@ -1,7 +1,5 @@
-addToEach x l = map (flip (++) [x]) l
-
 delannoyPathsStep :: [[[Int]]] -> [[[Int]]] -> [[[Int]]]
-delannoyPathsStep cs ds = (addToEach 2 (head ds)) : (zipWith3 (\x y z -> (addToEach 0 x) ++ (addToEach 2 y) ++ (addToEach 1 z)) ds (tail ds) cs) ++ [addToEach 0 (last ds)]
+delannoyPathsStep cs ds = (map (flip (++) [2]) (head ds)) : (zipWith3 (\x y z -> (map (flip (++) [0]) x) ++ (map (flip (++) [2]) y) ++ (map (flip (++) [1]) z)) ds (tail ds) cs) ++ [(map (flip (++) [0]) (last ds))]
 
 delannoyPathsHelper :: [[[Int]]] -> [[[Int]]] -> [[[[Int]]]]
 delannoyPathsHelper cs ds = cs : (delannoyPathsHelper ds (delannoyPathsStep cs ds))
